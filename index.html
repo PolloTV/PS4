@@ -12,15 +12,14 @@
         }
         
         body {
-            background: url("img.jpg") no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            color: #ffffff;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-            background-color: #0f0f23;
-        }
+    background: url("img.jpg") no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #ffffff;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
         
         .bg-decoration {
             position: fixed;
@@ -73,18 +72,18 @@
             100% { transform: translateY(0px) rotate(360deg); opacity: 0.08; }
         }
         
-        .container {
-            position: relative;
-            z-index: 2;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            padding: 1.5rem;
-            padding-bottom: 100px;
-            margin-top: 80px;
-        }
+      .container {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* ← ya no centra verticalmente */
+    align-items: center;
+    padding: 1.5rem;
+    padding-bottom: 100px;
+    margin-top: 80px; /* ← baja todo el contenido */
+}
         
         .header-section {
             text-align: center;
@@ -147,17 +146,26 @@
             font-family: 'Courier New', monospace;
         }
         
+        .notification2 {
+            animation: fadeOut 0.4s forwards;
+        }
+        
+        @keyframes fadeOut {
+            to { opacity: 0; }
+        }
+        
         #log {
             color: #10b981;
             font-size: 1rem;
             line-height: 1.4;
         }
         
-        .controls-section {
-            max-width: 800px;
-            width: 100%;
-            margin-top: 30px;
-        }
+
+       .controls-section {
+    max-width: 800px;
+    width: 100%;
+    margin-top: 30px; /* ← esto los baja */
+}
         
         .section-title {
             font-size: 1.2rem;
@@ -219,19 +227,19 @@
             margin: 1rem 0;
         }
         
-        .credits {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: transparent;
-            border-top: none;
-            padding: 1rem;
-            text-align: center;
-            font-size: 0.9rem;
-            z-index: 10;
-            color: rgba(255, 255, 255, 0.7);
-        }
+       .credits {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: transparent;
+    border-top: none;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    z-index: 10;
+    color: rgba(255, 255, 255, 0.7); /* opcional: texto más suave */
+}
         
         .credits-line {
             margin: 0.25rem 0;
@@ -268,24 +276,36 @@
             .main-title {
                 font-size: 2.2rem;
             }
+            
             .container {
                 padding: 1rem;
                 padding-bottom: 100px;
             }
+            
             .status-container {
                 padding: 1rem;
             }
+            
             .buttons-grid {
                 grid-template-columns: 1fr;
                 gap: 0.6rem;
             }
+            
             .credits {
                 font-size: 0.8rem;
             }
         }
-    </style>
+</style>
+<script>
+        if (window.applicationCache.status=='0') {
+        window.location.replace("version-selector.html");
+    }
+</script>
+<script defer src="payloads.js"></script>
+<script defer src="loader.js"></script>
+    <script type="module" src="alert.js"></script>
 </head>
-<body>
+<body onload="load_exploit()">
     <div class="bg-decoration">
         <div class="floating-shape shape-1"></div>
         <div class="floating-shape shape-2"></div>
@@ -295,7 +315,7 @@
     <div class="container">
         <div class="header-section">
             <h1 class="main-title">PlayStation Pulse PSFree Host 7.xx-9.xx</h1>
-            <p class="subtitle">Online and Offline PolloTv Auto GoldHen</p>
+            <p class="subtitle">Online and Offline PolloTv Auto GoldHen </p>
             <p class="version-info">PSfree1.6 FW 7.xx-9.xx GoldHEN v2.4b18.7</p>
             <div class="fw-display">FW - <span id="PS4fw"></span></div>
         </div>
@@ -312,6 +332,8 @@
         </div>
         
         <div class="controls-section">
+
+
             <div class="section-title">Payloads</div>
             <div class="buttons-grid">
                 <button onclick="load_PSFreeFix()"
@@ -331,6 +353,8 @@
                         onmouseout="document.getElementById('msgs2').innerHTML='Ready to Jailbreak'">
                     PS4Debug
                 </button>
+                
+                
                 
                 <button onclick="load_backup()"
                         onMouseOver="document.getElementById('msgs2').innerHTML='Backup - Backup system data to USB'"
@@ -361,85 +385,62 @@
                         onmouseout="document.getElementById('msgs2').innerHTML='Ready to Jailbreak'">
                     AppCache Install
                 </button>
+                
+                               </button>
             </div>
         </div>
-    </div>
+</div>
     
     <div class="credits">
         <div class="credits-line">
-            <span class="credit-label">Author:</span> 
-            <a href="https://t.me/sudoBlackArch" class="telegram-link">BlackArch</a>
-            <span style="margin: 0 1rem;">•</span>
-            <span class="credit-label">Telegram:</span> 
-            <a href="https://t.me/PlayStation_Pulse" class="credit-link">PlayStation Pulse</a>
+            <span class="credit-label"></span> 
+            <a href="https://t.me/sudo" class=""></a>
+            <span style="margin: 0 1rem;"></span>
+            <span class="credit-label"></span> 
+            <a href="" class="credit-link"></a>
         </div>
     </div>
 
-    <!-- Scripts al final, SIN defer, SIN type="module" -->
-    <script src="payloads.js"></script>
-    <script src="loader.js"></script>
-    <script src="alert.js"></script>
-
     <script>
-        // --- Iniciar exploit con reintentos seguros ---
-        function tryLoadExploit(attempts = 0) {
-            if (typeof load_exploit === "function") {
-                load_exploit();
-            } else if (attempts < 15) {
-                setTimeout(() => tryLoadExploit(attempts + 1), 300);
-            } else {
-                if (document.getElementById("msgs2")) {
-                    document.getElementById("msgs2").textContent = "❌ Exploit not loaded";
-                }
-            }
-        }
-
-        if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", tryLoadExploit);
-        } else {
-            tryLoadExploit();
-        }
-
-        // --- Detección de firmware ---
-        let UA = navigator.userAgent.substring(navigator.userAgent.indexOf("6.72 (") + 28, navigator.userAgent.indexOf(") Apple"));
-        const fwMap = {
-            "layStation 4/7.00": "7.00",
-            "layStation 4/7.01": "7.01",
-            "layStation 4/7.02": "7.02",
-            "layStation 4/7.50": "7.50",
-            "layStation 4/7.51": "7.51",
-            "layStation 4/7.55": "7.55",
-            "layStation 4/8.00": "8.00",
-            "layStation 4/8.01": "8.01",
-            "layStation 4/8.03": "8.03",
-            "layStation 4/8.50": "8.50",
-            "layStation 4/8.52": "8.52",
-            "layStation 4/9.00": "9.00",
-            "layStation 4/9.03": "9.03",
-            "layStation 4/9.04": "9.04",
-            "layStation 4/9.50": "9.50",
-            "layStation 4/9.51": "9.51",
-            "layStation 4/9.60": "9.60",
-            "layStation 4/99.99": "99.99"
-        };
-        UA = fwMap[UA] || UA;
-
-        const supportedFW = ["7.00","7.01","7.02","7.50","7.51","7.55","8.00","8.01","8.03","8.50","8.52","9.00","9.03","9.04","9.50","9.51","9.60","99.99"];
-        if (!supportedFW.includes(UA)) {
+        // Firmware detection
+        UA = navigator.userAgent.substring(navigator.userAgent.indexOf("6.72 (") + 28, navigator.userAgent.indexOf(") Apple"));
+        // 7.xx
+        if (UA == "layStation 4/7.00") UA = "7.00";
+        if (UA == "layStation 4/7.01") UA = "7.01";
+        if (UA == "layStation 4/7.02") UA = "7.02";
+        if (UA == "layStation 4/7.50") UA = "7.50";
+        if (UA == "layStation 4/7.51") UA = "7.51";
+        if (UA == "layStation 4/7.55") UA = "7.55";
+        // 8.xx
+        if (UA == "layStation 4/8.00") UA = "8.00";
+        if (UA == "layStation 4/8.01") UA = "8.01";
+        if (UA == "layStation 4/8.03") UA = "8.03";
+        if (UA == "layStation 4/8.50") UA = "8.50";
+        if (UA == "layStation 4/8.52") UA = "8.52";
+        // 9.xx
+        if (UA == "layStation 4/9.00") UA = "9.00";
+        if (UA == "layStation 4/9.03") UA = "9.03";
+        if (UA == "layStation 4/9.04") UA = "9.04";
+        if (UA == "layStation 4/9.50") UA = "9.50";
+        if (UA == "layStation 4/9.51") UA = "9.51";
+        if (UA == "layStation 4/9.60") UA = "9.60";
+        if (UA == "layStation 4/99.99") UA = "99.99";
+        
+        var supportedFW = ["7.00","7.01","7.02","7.50","7.51","7.55","8.00","8.01","8.03","8.50","8.52","9.00","9.03","9.04","9.50","9.51","9.60","99.99"];
+        if (!supportedFW.includes(UA)) 
             alert("This Is For PS4 FW 7.xx - 9.xx Only!");
-        }
-        if (document.getElementById("PS4fw")) {
-            document.getElementById("PS4fw").textContent = UA || "Unknown";
-        }
+        document.getElementById("PS4fw").innerHTML = "" + UA + "";
 
-        // --- Estadísticas ---
-        localStorage.passcount = localStorage.passcount || "0";
-        localStorage.failcount = localStorage.failcount || "0";
+        // Statistics initialization
+        if (localStorage.passcount == null || localStorage.passcount == undefined) localStorage.passcount = 0;
+        if (localStorage.failcount == null || localStorage.failcount == undefined) localStorage.failcount = 0;
+        
+        // Update counters on page load
         if (document.getElementById("passCounter")) {
-            document.getElementById("passCounter").textContent = localStorage.passcount;
+            document.getElementById("passCounter").innerHTML = localStorage.passcount;
         }
         if (document.getElementById("failCounter")) {
-            document.getElementById("failCounter").textContent = localStorage.failcount;
+            document.getElementById("failCounter").innerHTML = localStorage.failcount;
         }
     </script>
 </body>
