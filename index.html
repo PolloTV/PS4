@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html manifest="PSPulse.manifest">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,7 @@
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
-            background-color: #0f0f23; /* fallback si img.jpg falla */
+            background-color: #0f0f23;
         }
         
         .bg-decoration {
@@ -375,40 +375,32 @@
         </div>
     </div>
 
-    <!-- Scripts SIN defer, cargados en orden -->
+    <!-- Scripts al final, SIN defer, SIN type="module" -->
     <script src="payloads.js"></script>
     <script src="loader.js"></script>
     <script src="alert.js"></script>
 
-    <!-- Iniciar exploit solo cuando todo esté listo -->
     <script>
-        function startExploit() {
+        // --- Iniciar exploit con reintentos seguros ---
+        function tryLoadExploit(attempts = 0) {
             if (typeof load_exploit === "function") {
                 load_exploit();
+            } else if (attempts < 15) {
+                setTimeout(() => tryLoadExploit(attempts + 1), 300);
             } else {
-                // Reintentar cada 200ms hasta 10 veces
-                let retries = 0;
-                const tryLoad = setInterval(() => {
-                    if (typeof load_exploit === "function") {
-                        clearInterval(tryLoad);
-                        load_exploit();
-                    } else if (retries > 10) {
-                        clearInterval(tryLoad);
-                        document.getElementById("msgs2").textContent = "Error: Exploit not loaded";
-                    }
-                    retries++;
-                }, 200);
+                if (document.getElementById("msgs2")) {
+                    document.getElementById("msgs2").textContent = "❌ Exploit not loaded";
+                }
             }
         }
 
-        // Esperar a que los scripts se carguen
         if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", startExploit);
+            document.addEventListener("DOMContentLoaded", tryLoadExploit);
         } else {
-            startExploit();
+            tryLoadExploit();
         }
 
-        // Firmware detection
+        // --- Detección de firmware ---
         let UA = navigator.userAgent.substring(navigator.userAgent.indexOf("6.72 (") + 28, navigator.userAgent.indexOf(") Apple"));
         const fwMap = {
             "layStation 4/7.00": "7.00",
@@ -436,13 +428,19 @@
         if (!supportedFW.includes(UA)) {
             alert("This Is For PS4 FW 7.xx - 9.xx Only!");
         }
-        document.getElementById("PS4fw").textContent = UA || "Unknown";
+        if (document.getElementById("PS4fw")) {
+            document.getElementById("PS4fw").textContent = UA || "Unknown";
+        }
 
-        // Stats
+        // --- Estadísticas ---
         localStorage.passcount = localStorage.passcount || "0";
         localStorage.failcount = localStorage.failcount || "0";
-        document.getElementById("passCounter").textContent = localStorage.passcount;
-        document.getElementById("failCounter").textContent = localStorage.failcount;
+        if (document.getElementById("passCounter")) {
+            document.getElementById("passCounter").textContent = localStorage.passcount;
+        }
+        if (document.getElementById("failCounter")) {
+            document.getElementById("failCounter").textContent = localStorage.failcount;
+        }
     </script>
 </body>
 </html>
