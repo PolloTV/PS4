@@ -19,7 +19,7 @@
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
-            background-color: #0f0f23; /* fallback */
+            background-color: #0f0f23; /* fallback si img.jpg falla */
         }
         
         .bg-decoration {
@@ -285,7 +285,7 @@
         }
     </style>
 </head>
-<body onload="load_exploit()">
+<body>
     <div class="bg-decoration">
         <div class="floating-shape shape-1"></div>
         <div class="floating-shape shape-2"></div>
@@ -375,12 +375,39 @@
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script defer src="payloads.js"></script>
-    <script defer src="loader.js"></script>
+    <!-- Scripts SIN defer, cargados en orden -->
+    <script src="payloads.js"></script>
+    <script src="loader.js"></script>
     <script src="alert.js"></script>
 
+    <!-- Iniciar exploit solo cuando todo esté listo -->
     <script>
+        function startExploit() {
+            if (typeof load_exploit === "function") {
+                load_exploit();
+            } else {
+                // Reintentar cada 200ms hasta 10 veces
+                let retries = 0;
+                const tryLoad = setInterval(() => {
+                    if (typeof load_exploit === "function") {
+                        clearInterval(tryLoad);
+                        load_exploit();
+                    } else if (retries > 10) {
+                        clearInterval(tryLoad);
+                        document.getElementById("msgs2").textContent = "Error: Exploit not loaded";
+                    }
+                    retries++;
+                }, 200);
+            }
+        }
+
+        // Esperar a que los scripts se carguen
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", startExploit);
+        } else {
+            startExploit();
+        }
+
         // Firmware detection
         let UA = navigator.userAgent.substring(navigator.userAgent.indexOf("6.72 (") + 28, navigator.userAgent.indexOf(") Apple"));
         const fwMap = {
@@ -409,11 +436,11 @@
         if (!supportedFW.includes(UA)) {
             alert("This Is For PS4 FW 7.xx - 9.xx Only!");
         }
-        document.getElementById("PS4fw").textContent = UA;
+        document.getElementById("PS4fw").textContent = UA || "Unknown";
 
         // Stats
-        localStorage.passcount = localStorage.passcount || 0;
-        localStorage.failcount = localStorage.failcount || 0;
+        localStorage.passcount = localStorage.passcount || "0";
+        localStorage.failcount = localStorage.failcount || "0";
         document.getElementById("passCounter").textContent = localStorage.passcount;
         document.getElementById("failCounter").textContent = localStorage.failcount;
     </script>

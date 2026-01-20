@@ -1,11 +1,14 @@
 CACHE MANIFEST
-# v1.0
+# v1.3
 
 index.html
 img.jpg
-loader.js
 payloads.js
+loader.js
 alert.js
 
 NETWORK:
 *
+
+FALLBACK:
+/ /index.html
